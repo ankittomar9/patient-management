@@ -1,0 +1,5 @@
+### Delete an entity a patient record
+
+DELETE http://localhost:8080/patients/a46f3793-b35f-4ac9-8227-782847865651
+
+###
