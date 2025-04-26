@@ -5,7 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
-import patient_event.PatientEvent;
+import patient.events.PatientEvent;
+
 
 @Service
 public class KafkaProducer {
@@ -27,6 +28,7 @@ public class KafkaProducer {
             kafkaTemplate.send("patient",event.toByteArray());
         }catch (Exception e){
             log.error("Error sending PatientCreated event: {}", event);
+            log.error("Stack Trace:", e);
 
         }
     }

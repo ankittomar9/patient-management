@@ -1,6 +1,6 @@
 syntax ="proto3";
 
-package patient_event;
+package patient.events;
 option java_multiple_files = true;
 
 message PatientEvent {
