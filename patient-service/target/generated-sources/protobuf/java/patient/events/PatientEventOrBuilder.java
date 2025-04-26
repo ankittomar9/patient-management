@@ -2,10 +2,10 @@
 // source: patient_event.proto
 
 // Protobuf Java Version: 3.25.5
-package patient_event;
+package patient.events;
 
 public interface PatientEventOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:patient_event.PatientEvent)
+    // @@protoc_insertion_point(interface_extends:patient.events.PatientEvent)
     com.google.protobuf.MessageOrBuilder {
 
   /**

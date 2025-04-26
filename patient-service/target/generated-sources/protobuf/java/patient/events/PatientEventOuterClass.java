@@ -2,7 +2,7 @@
 // source: patient_event.proto
 
 // Protobuf Java Version: 3.25.5
-package patient_event;
+package patient.events;
 
 public final class PatientEventOuterClass {
   private PatientEventOuterClass() {}
@@ -16,10 +16,10 @@ public final class PatientEventOuterClass {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_patient_event_PatientEvent_descriptor;
+    internal_static_patient_events_PatientEvent_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_patient_event_PatientEvent_fieldAccessorTable;
+      internal_static_patient_events_PatientEvent_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -29,20 +29,20 @@ public final class PatientEventOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\023patient_event.proto\022\rpatient_event\"R\n\014" +
-      "PatientEvent\022\021\n\tpatientId\030\001 \001(\t\022\014\n\004name\030" +
-      "\002 \001(\t\022\r\n\005email\030\003 \001(\t\022\022\n\nevent_type\030\004 \001(\t" +
-      "B\002P\001b\006proto3"
+      "\n\023patient_event.proto\022\016patient.events\"R\n" +
+      "\014PatientEvent\022\021\n\tpatientId\030\001 \001(\t\022\014\n\004name" +
+      "\030\002 \001(\t\022\r\n\005email\030\003 \001(\t\022\022\n\nevent_type\030\004 \001(" +
+      "\tB\002P\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         });
-    internal_static_patient_event_PatientEvent_descriptor =
+    internal_static_patient_events_PatientEvent_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_patient_event_PatientEvent_fieldAccessorTable = new
+    internal_static_patient_events_PatientEvent_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_patient_event_PatientEvent_descriptor,
+        internal_static_patient_events_PatientEvent_descriptor,
         new java.lang.String[] { "PatientId", "Name", "Email", "EventType", });
   }
 
