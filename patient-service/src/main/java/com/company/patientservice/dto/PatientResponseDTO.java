@@ -1,6 +1,10 @@
 package com.company.patientservice.dto;
 
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class PatientResponseDTO {
 
     private String id;
