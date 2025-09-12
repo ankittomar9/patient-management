@@ -13,12 +13,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PatientService {
 
-  private final  PatientRepository patientRepository;
+  private final PatientRepository patientRepository;
 
-    public List<PatientResponseDTO> getPatients() {
-      List<Patient> patients = patientRepository.findAll();
+  public List<PatientResponseDTO> getPatients() {
+    List<Patient> patients = patientRepository.findAll();
 
-      List<PatientResponseDTO> patientResponseDTOs =
-              patients.stream().map(PatientMapper::toDTO).toList();
-      return  patientResponseDTOs;
+    List<PatientResponseDTO> patientResponseDTOs =
+            patients.stream().map(PatientMapper::toDTO).toList();
+    return patientResponseDTOs;
+  }
 }
