@@ -16,6 +16,5 @@ public class PatientService {
 
     public List<PatientResponseDTO> getPatients() {
       List<Patient> patients = patientRepository.findAll();
-    }
 
 }
