@@ -3,6 +3,7 @@ package com.company.patientservice.service;
 import com.company.patientservice.dto.PatientRequestDTO;
 import com.company.patientservice.dto.PatientResponseDTO;
 import com.company.patientservice.exception.EmailAlreadyExistsException;
+import com.company.patientservice.exception.PatientNotFoundException;
 import com.company.patientservice.mapper.PatientMapper;
 import com.company.patientservice.model.Patient;
 import com.company.patientservice.repository.PatientRepository;
