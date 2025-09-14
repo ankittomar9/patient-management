@@ -35,6 +35,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(PatientNotFoundException.class)
     public ResponseEntity<Map<String,String>> handlePatientNotFoundException(PatientNotFoundException ex){
+       log
         Map<String,String> errors =new HashMap<>();
         errors.put("message","patient not found " + ex.getMessage());
         return ResponseEntity.badRequest().body(errors);
