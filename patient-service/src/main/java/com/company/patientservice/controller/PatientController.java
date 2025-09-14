@@ -29,6 +29,12 @@ public class PatientController {
       return ResponseEntity.ok().body(patientResponseDTO);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<PatientResponseDTO> updatePatient(@PathVariable PatientResponseDTO patientResponseDTO){
+        PatientResponseDTO updatedPatient = patientService.updatingPatient(patientResponseDTO);
+        return ResponseEntity.ok().body(updatedPatient);
+    }
+
 
 
 
