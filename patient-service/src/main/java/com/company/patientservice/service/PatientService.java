@@ -10,6 +10,7 @@ import com.company.patientservice.repository.PatientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,7 +45,14 @@ public class PatientService {
 
     if(patientRepository.existsByEmail(patientRequestDTO.getEmail())){
       throw new EmailAlreadyExistsException("Patient already exists" + " with this email " + patientRequestDTO.getEmail());
+
     }
+    patient.setName(patientRequestDTO.getName());
+    patient.setAddress(patientRequestDTO.getAddress());
+    patient.setEmail(patientRequestDTO.getEmail());
+    patient.setDateOfBirth(LocalDate.parse(patientRequestDTO.getDateOfBirth()));
+
+
   }
 
 }
