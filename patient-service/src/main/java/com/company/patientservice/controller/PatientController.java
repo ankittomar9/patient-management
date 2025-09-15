@@ -6,8 +6,10 @@ import com.company.patientservice.exception.PatientNotFoundException;
 import com.company.patientservice.model.Patient;
 import com.company.patientservice.service.PatientService;
 import jakarta.validation.Valid;
+import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,7 +35,8 @@ public class PatientController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PatientResponseDTO> updatePatient(@PathVariable UUID id,  @RequestBody PatientRequestDTO patientRequestDTO){
+    public ResponseEntity<PatientResponseDTO> updatePatient(@PathVariable UUID id,
+                                                            @Validated({Default.class})@RequestBody PatientRequestDTO patientRequestDTO){
         PatientResponseDTO patientResponseDTO = patientService.updatingPatient(id,patientRequestDTO);
         return ResponseEntity.ok().body(patientResponseDTO);
 
