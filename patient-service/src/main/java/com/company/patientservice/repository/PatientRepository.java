@@ -11,6 +11,7 @@ public interface PatientRepository extends JpaRepository<Patient, UUID> {
 
     boolean existsByEmail(String email);
     // You can add custom query methods here if needed
+    boolean existsByEmailAndIdNot(String email, UUID id);
 
 
 
