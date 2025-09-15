@@ -1,0 +1,14 @@
+### Post request to Update a  patient in patient service
+POST http://localhost:4000/patients
+Content-Type: application/json
+
+{
+  "name": "Aman Doe",
+  "email": "Aman@NewEmail.com",
+  "address": "123 Main St",
+  "dateOfBirth": "2000-01-01",
+  "registeredDate": "2024-12-12"
+}
+
+
+###
