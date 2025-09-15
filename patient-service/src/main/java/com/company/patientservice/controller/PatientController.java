@@ -2,15 +2,10 @@ package com.company.patientservice.controller;
 
 import com.company.patientservice.dto.PatientRequestDTO;
 import com.company.patientservice.dto.PatientResponseDTO;
-import com.company.patientservice.dto.validators.CreatePatientValidationGroup;
-import com.company.patientservice.exception.PatientNotFoundException;
-import com.company.patientservice.model.Patient;
 import com.company.patientservice.service.PatientService;
 import jakarta.validation.Valid;
-import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,26 +25,17 @@ public class PatientController {
 
     }
     @PostMapping
-    public ResponseEntity<PatientResponseDTO> createPatient(@Validated({Default.class, CreatePatientValidationGroup.class}) @RequestBody PatientRequestDTO patientRequestDTO){
+    public ResponseEntity<PatientResponseDTO> createPatient(@Valid @RequestBody PatientRequestDTO patientRequestDTO){
       PatientResponseDTO patientResponseDTO = patientService.createPatient(patientRequestDTO);
       return ResponseEntity.ok().body(patientResponseDTO);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<PatientResponseDTO> updatePatient(@PathVariable UUID id,
-                                                            @Validated({Default.class})@RequestBody PatientRequestDTO patientRequestDTO){
-        PatientResponseDTO patientResponseDTO = patientService.updatingPatient(id,patientRequestDTO);
+                                                            @RequestBody PatientRequestDTO patientRequestDTO){
+        PatientResponseDTO patientResponseDTO = patientService.updatingPatient(patientRequestDTO);
         return ResponseEntity.ok().body(patientResponseDTO);
-
     }
-
-    @DeleteMapping("/{id}")
-        public ResponseEntity<Void> deletePatient(@PathVariable UUID id){
-        patientService.deletePatient(id);
-        return ResponseEntity.noContent().build();
-    }
-
-
 
 
 
