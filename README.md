@@ -14,44 +14,13 @@ graph TD
     D <-->|Queries| E[(Database)]
 ```
 
-### Components
-
-1. **Frontend (Client)**
-   - Initiates HTTP requests to the backend
-   - Sends and receives data in JSON format
-   - Handles user interface interactions
-
-2. **Controller Layer**
-   - Entry point for all HTTP requests
-   - Handles request/response mapping
-   - Converts between DTOs and domain models
-   - Manages HTTP status codes and error responses
-
-3. **Service Layer**
-   - Contains business logic
-   - Manages transactions
-   - Handles data validation
-   - Converts between DTOs and domain models
-   - Orchestrates calls to repositories
-
-4. **Repository Layer**
-   - Handles data access logic
-   - Communicates with the database
-   - Implements CRUD operations
-   - Manages database transactions
-
-5. **Database**
-   - Stores application data
-   - Handles data persistence
-   - Ensures data integrity
-
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- Java 17 or higher
+- Java 21 or higher
 - Maven 3.6.3 or higher
-- MySQL 8.0 or higher (or your preferred database)
+- PostgreSQL or H2 Database
 
 ### Installation
 
@@ -62,7 +31,7 @@ graph TD
    ```
 
 2. Configure the database:
-   - Create a new MySQL database
+   - Create a new PostgreSQL database
    - Update `application.properties` with your database credentials
 
 3. Build the application:
@@ -78,8 +47,57 @@ graph TD
 ## 📚 API Documentation
 
 Once the application is running, you can access:
-- **Swagger UI**: http://localhost:8080/swagger-ui.html
-- **H2 Console** (if using H2 in-memory DB): http://localhost:8080/h2-console
+- **Swagger UI**: http://localhost:4000/swagger-ui/index.html
+- **H2 Console** (if using H2 in-memory DB): http://localhost:4000/h2-console
+
+---
+
+## 🩺 Patient Service Details
+
+### Components
+
+1.  **Controller Layer (`PatientController`)**
+    -   Handles HTTP requests/responses and maps endpoints to service methods.
+    -   Performs input validation using `@Valid`.
+
+2.  **Service Layer (`PatientService`)**
+    -   Contains core business logic and data validation.
+    -   Interacts with the repository and throws custom exceptions for business rule violations.
+
+3.  **Repository Layer (`PatientRepository`)**
+    -   Extends `JpaRepository` for CRUD operations and provides database access methods.
+
+4.  **Exception Handling (`GlobalExceptionHandler`)**
+    -   Uses `@ControllerAdvice` to handle exceptions globally, including validation and custom business exceptions.
+
+5.  **Data Transfer Objects (DTOs)**
+    -   `PatientRequestDTO`: For receiving patient data.
+    -   `PatientResponseDTO`: For sending patient data.
+
+### API Endpoints
+
+#### 1. Create Patient
+- **Endpoint**: `POST /patients`
+- **Request Body**: `PatientRequestDTO`
+- **Flow**:
+  1. Validates the request.
+  2. Checks if the email already exists and throws `EmailAlreadyExistsException` if it does.
+  3. Saves the new patient to the database.
+  4. Returns the created patient as a `PatientResponseDTO`.
+
+#### 2. Get All Patients
+- **Endpoint**: `GET /patients`
+- **Response**: A list of `PatientResponseDTO`.
+- **Flow**:
+  1. Retrieves all patients from the database.
+  2. Maps the entities to DTOs and returns the list.
+
+### Exception Handling
+
+-   **`MethodArgumentNotValidException`**: Triggered on request validation failure. Returns `400 Bad Request` with field-level errors.
+-   **`EmailAlreadyExistsException`**: Triggered when creating a patient with a duplicate email. Returns `400 Bad Request`.
+
+---
 
 ## 🛠️ Development
 
