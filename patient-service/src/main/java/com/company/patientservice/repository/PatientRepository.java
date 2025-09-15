@@ -10,6 +10,8 @@ import java.util.UUID;
 public interface PatientRepository extends JpaRepository<Patient, UUID> {
 
     boolean existsByEmail(String email);
+    // You can add custom query methods here if needed
+
 
 
 }
