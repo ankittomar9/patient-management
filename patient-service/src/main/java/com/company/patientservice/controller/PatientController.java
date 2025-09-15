@@ -2,6 +2,7 @@ package com.company.patientservice.controller;
 
 import com.company.patientservice.dto.PatientRequestDTO;
 import com.company.patientservice.dto.PatientResponseDTO;
+import com.company.patientservice.dto.validators.CreatePatientValidationGroup;
 import com.company.patientservice.exception.PatientNotFoundException;
 import com.company.patientservice.model.Patient;
 import com.company.patientservice.service.PatientService;
@@ -29,7 +30,7 @@ public class PatientController {
 
     }
     @PostMapping
-    public ResponseEntity<PatientResponseDTO> createPatient(@Validated({Default.class,CreatePatientValidationGroup.class}) @RequestBody PatientRequestDTO patientRequestDTO){
+    public ResponseEntity<PatientResponseDTO> createPatient(@Validated({Default.class, CreatePatientValidationGroup.class}) @RequestBody PatientRequestDTO patientRequestDTO){
       PatientResponseDTO patientResponseDTO = patientService.createPatient(patientRequestDTO);
       return ResponseEntity.ok().body(patientResponseDTO);
     }
