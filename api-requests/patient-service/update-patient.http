@@ -1,0 +1,13 @@
+### Put request to Update a  patient in patient service
+PUT http://localhost:4000/patients/123e4567-e89b-12d3-a456-426614174000
+Content-Type: application/json
+
+{
+  "name": "Aman TestDoe5",
+  "email": "Aman@NewEmailTestUpdated4.com",
+  "address": "123 Main St",
+  "dateOfBirth": "2000-01-01"
+}
+
+
+### without registeredDate because of validation group

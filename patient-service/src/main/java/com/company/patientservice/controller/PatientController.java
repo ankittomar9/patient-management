@@ -2,8 +2,6 @@ package com.company.patientservice.controller;
 
 import com.company.patientservice.dto.PatientRequestDTO;
 import com.company.patientservice.dto.PatientResponseDTO;
-import com.company.patientservice.exception.PatientNotFoundException;
-import com.company.patientservice.model.Patient;
 import com.company.patientservice.service.PatientService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -33,11 +31,11 @@ public class PatientController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PatientResponseDTO> updatePatient(@PathVariable UUID id, @Valid @RequestBody PatientRequestDTO patientRequestDTO){
-        PatientResponseDTO patientResponseDTO = patientService.updatingPatient(id,patientRequestDTO);
+    public ResponseEntity<PatientResponseDTO> updatePatient(@PathVariable UUID id,
+                                                            @RequestBody PatientRequestDTO patientRequestDTO){
+        PatientResponseDTO patientResponseDTO = patientService.updatingPatient(patientRequestDTO);
         return ResponseEntity.ok().body(patientResponseDTO);
     }
-
 
 
 
