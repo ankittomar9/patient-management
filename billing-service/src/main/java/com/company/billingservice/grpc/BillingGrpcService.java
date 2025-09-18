@@ -12,7 +12,7 @@ public class BillingGrpcService extends BillingServiceGrpc.BillingServiceImplBas
     public void createBillingAccount(billing.BillingRequest billingRequest,
                                      StreamObserver<BillingResponse>responseObserver){
 
-
+    log.info("createBillingAccount request received {} ",billingRequest.toString());
 
 
 }
