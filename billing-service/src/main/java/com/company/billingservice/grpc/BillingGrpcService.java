@@ -1,5 +1,6 @@
 package com.company.billingservice.grpc;
 
+import billing.BillingResponse;
 import billing.BillingServiceGrpc;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
@@ -9,7 +10,7 @@ public class BillingGrpcService extends BillingServiceGrpc.BillingServiceImplBas
 
 @Override
     public void createBillingAccount(billing.BillingRequest billingRequest,
-                                     StreamObserver<BillingRespone>responseObserver){
+                                     StreamObserver<BillingResponse>responseObserver){
 
 
 }
