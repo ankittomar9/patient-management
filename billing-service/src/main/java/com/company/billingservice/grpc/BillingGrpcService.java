@@ -22,7 +22,7 @@ public class BillingGrpcService extends BillingServiceGrpc.BillingServiceImplBas
             .setStatus("Success")
             .build();
 
-   // responseObserver.onNext(billingResponse);
+    responseObserver.onNext(billingResponse);
     //responseObserver.onCompleted();
 
 }
