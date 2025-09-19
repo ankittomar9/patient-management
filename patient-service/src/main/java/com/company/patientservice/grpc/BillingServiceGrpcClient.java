@@ -18,8 +18,8 @@ public class BillingServiceGrpcClient  {
     //localhost:9001/BillingService/CreatePatientAccount
     //aws.grpc:12312/BillingService/CreatePatientAccount
     public BillingServiceGrpcClient(
-            @Value("{billing.service.address:localhost}") String serverAddress,
-            @Value("{${billing.service.grpc.port:9001}}") int serverPort
+            @Value("${billing.service.address:localhost}") String serverAddress,
+            @Value("${billing.service.grpc.port:9001}") int serverPort
     ){
         log.info("Connecting to Billing Service GRPC service at {}:{}",serverAddress,
                 serverPort);
