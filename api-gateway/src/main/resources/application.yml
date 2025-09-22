@@ -5,9 +5,23 @@ spring:
   cloud:
     gateway:
       routes:
+        ##REST CLIENT -> http://localhost:4004/api/patients
+        ## API GATEWAY -> http://patient-service:4000/patients
+        ## Patient Service(Spring Boot APP ) /patients -> Patients Array
         - id: patient-service-route
           uri: http://patient-service:4000
           predicates:
-            -path-/api/patients/**
+            - path=/api/patients/**
           filters:
-            -strip-prefix=1
+            - strip-prefix=1
+
+
+        - id: api-docs-patients
+          uri: http://patient-service:4000
+          predicates:
+            - path=/api-docs/patients
+          filters:
+            - rewrite-path=/api-docs/patients,/v3/api-docs
+
+            ##REST CLIENT -> http://localhost:4004/api-docs/patients
+            ## API GATEWAY -> http://patient-service:4000/v3/api-docs
