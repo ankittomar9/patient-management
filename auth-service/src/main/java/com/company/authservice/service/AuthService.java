@@ -2,6 +2,7 @@ package com.company.authservice.service;
 
 import com.company.authservice.dto.LoginRequestDTO;
 import com.company.authservice.model.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -9,6 +10,9 @@ import java.util.Optional;
 @Service
 public class AuthService {
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
+//    private final JwtUtil jwtUtil;
+
 
     public AuthService(UserService userService) {
         this.userService = userService;
