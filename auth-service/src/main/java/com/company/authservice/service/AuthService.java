@@ -14,8 +14,9 @@ public class AuthService {
 //    private final JwtUtil jwtUtil;
 
 
-    public AuthService(UserService userService) {
+    public AuthService(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
