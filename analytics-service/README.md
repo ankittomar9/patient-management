@@ -16,17 +16,23 @@ The Analytics Service is a consumer service in the Patient Management System tha
 - Kafka (for event streaming)
 
 ## Configuration
-Configuration is managed through `application.properties`:
+Configuration is managed through `application.properties` or environment variables. Below are the essential properties:
+
 ```properties
 spring.application.name=analytics-service
+server.port=4002
+
+# Kafka Consumer Configuration
+spring.kafka.bootstrap-servers=localhost:9092
+spring.kafka.consumer.group-id=analytics-service
 spring.kafka.consumer.key-deserializer=org.apache.kafka.common.serialization.StringDeserializer
 spring.kafka.consumer.value-deserializer=org.apache.kafka.common.serialization.ByteArrayDeserializer
 ```
 
 ## Kafka Integration
-- Consumes from topic: `patient`
-- Consumer Group: `analytics-service`
-- Message format: Protocol Buffers (PatientEvent)
+- **Topic**: Consumes from the `patient` topic.
+- **Consumer Group**: `analytics-service`.
+- **Message Format**: The service expects messages where the value is a byte array representing a Protocol Buffers message (`PatientEvent`). The application is responsible for deserializing this byte array into the Protobuf object.
 
 ## Building and Running
 
@@ -47,7 +53,7 @@ docker build -t analytics-service .
 
 ### Docker Run
 ```bash
-docker run -p 4002:4002 analytics-service
+docker run -p 4002:4002 --env KAFKA_BOOTSTRAP_SERVERS=your_kafka_host:9092 analytics-service
 ```
 
 ## Event Processing
@@ -68,16 +74,9 @@ message PatientEvent {
 - Lombok
 - Spring Boot Actuator
 
-## Environment Variables
-- `KAFKA_BOOTSTRAP_SERVERS` - Kafka bootstrap servers (default: localhost:9092)
-- `SERVER_PORT` - Service port (default: 4002)
-
 ## Monitoring
-- Health Check: `GET /actuator/health`
-- Metrics: `GET /actuator/metrics`
-
-## Logging
-Logs are configured to output to console with INFO level by default. Each processed event is logged with patient details.
+- **Health Check**: `GET /actuator/health`
+- **Metrics**: `GET /actuator/metrics`
 
 ## Scaling
 The service is stateless and can be horizontally scaled by running multiple instances with the same consumer group ID.
