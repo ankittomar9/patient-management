@@ -5,6 +5,15 @@ spring:
   cloud:
     gateway:
       routes:
+          ##http://locahost:4004/auth/login
+         ## API-Gateway -> http://auth-service:4005/login
+        - id: auth-service-route
+          uri: http://auth-service:4005
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
+
         ##REST CLIENT -> http://localhost:4004/api/patients
         ## API GATEWAY -> http://patient-service:4000/patients
         ## Patient Service(Spring Boot APP ) /patients -> Patients Array
@@ -14,6 +23,8 @@ spring:
             - Path=/api/patients/**
           filters:
             - StripPrefix=1
+            - JwtValidation
+            ## JwtValidationGatewayFilterFactory GatewayFilterFactory class recognition
 
 
         - id: api-docs-patients
@@ -22,6 +33,14 @@ spring:
             - Path=/api-docs/patients
           filters:
             - RewritePath=/api-docs/patients,/v3/api-docs
+
+        - id: api-docs-auth-route
+          uri: http://auth-service:4005
+          predicates:
+            - Path=/api-docs/auth
+          filters:
+            - RewritePath=/api-docs/auth,/v3/api-docs
+
 
             ##REST CLIENT -> http://localhost:4004/api-docs/patients -- access swagger docs as well
             ## API GATEWAY -> http://patient-service:4000/v3/api-docs
