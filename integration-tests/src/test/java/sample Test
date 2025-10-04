@@ -1,0 +1,199 @@
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.notNullValue;
+
+public class AuthIntegrationTest {
+    private static final String BASE_PATH = "/auth/login";
+    private static final String VALID_EMAIL = "testuser@test.com";
+    private static final String VALID_PASSWORD = "password123";
+    private static final String INVALID_EMAIL = "invalid_user@test.com";
+    private static final String INVALID_PASSWORD = "wrongpassword";
+
+    @BeforeAll
+    static void setUp() {
+        RestAssured.baseURI = "http://localhost:4004/";
+    }
+
+    @Test
+    public void shouldReturnOKWithValidToken() {
+        String loginPayload = String.format("""
+                {
+                    "email": "%s",
+                    "password": "%s"
+                }""", VALID_EMAIL, VALID_PASSWORD);
+
+        Response response = given()
+                .contentType("application/json")
+                .body(loginPayload)
+                .when()
+                .post(BASE_PATH)
+                .then()
+                .statusCode(200)
+                .body("token", notNullValue())
+                .extract().response();
+
+        System.out.println("Generated Token: " + response.jsonPath().getString("token"));
+    }
+
+    @Test
+    public void shouldReturnUnauthorizedWithInvalidLogin() {
+        String loginPayload = String.format("""
+                {
+                    "email": "%s",
+                    "password": "%s"
+                }""", INVALID_EMAIL, INVALID_PASSWORD);
+
+        given()
+                .contentType("application/json")
+                .body(loginPayload)
+                .when()
+                .post(BASE_PATH)
+                .then()
+                .statusCode(401);
+
+        System.out.println("Invalid Request/bad Credentials");
+    }
+
+    @Test
+    public void shouldReturnBadRequestWhenEmailIsMissing() {
+        String loginPayload = """
+                {
+                    "password": "password123"
+                }""";
+
+        given()
+                .contentType("application/json")
+                .body(loginPayload)
+                .when()
+                .post(BASE_PATH)
+                .then()
+                .statusCode(400);
+    }
+
+    @Test
+    public void shouldReturnBadRequestWhenPasswordIsMissing() {
+        String loginPayload = String.format("""
+                {
+                    "email": "%s"
+                }""", VALID_EMAIL);
+
+        given()
+                .contentType("application/json")
+                .body(loginPayload)
+                .when()
+                .post(BASE_PATH)
+                .then()
+                .statusCode(400);
+    }
+
+    @Test
+    public void shouldReturnBadRequestForMalformedEmail() {
+        String loginPayload = """
+                {
+                    "email": "invalid-email",
+                    "password": "password123"
+                }""";
+
+        given()
+                .contentType("application/json")
+                .body(loginPayload)
+                .when()
+                .post(BASE_PATH)
+                .then()
+                .statusCode(400);
+    }
+
+    @Test
+    public void shouldLockAccountAfterMultipleFailedAttempts() {
+        String loginPayload = String.format("""
+                {
+                    "email": "%s",
+                    "password": "%s"
+                }""", VALID_EMAIL, INVALID_PASSWORD);
+
+        // Attempt multiple failed logins
+        for (int i = 0; i < 5; i++) {
+            given()
+                .contentType("application/json")
+                .body(loginPayload)
+                .when()
+                .post(BASE_PATH)
+                .then()
+                .statusCode(401);
+        }
+
+        // Should now be locked out
+        given()
+            .contentType("application/json")
+            .body(loginPayload)
+            .when()
+            .post(BASE_PATH)
+            .then()
+            .statusCode(423); // 423 Locked or appropriate status code
+    }
+
+    @Test
+    public void shouldRejectInvalidToken() {
+        given()
+            .header("Authorization", "Bearer invalid.token.here")
+            .when()
+            .get("/some-protected-endpoint")
+            .then()
+            .statusCode(401);
+    }
+
+    @Test
+    public void shouldEnforceRateLimiting() {
+        String loginPayload = String.format("""
+                {
+                    "email": "%s",
+                    "password": "%s"
+                }""", VALID_EMAIL, VALID_PASSWORD);
+
+        // Make multiple requests in quick succession
+        for (int i = 0; i < 10; i++) {
+            Response response = given()
+                .contentType("application/json")
+                .body(loginPayload)
+                .when()
+                .post(BASE_PATH);
+
+            if (i < 5) {
+                response.then().statusCode(200);
+            } else {
+                response.then().statusCode(429); // Too Many Requests
+            }
+        }
+    }
+
+    @Test
+    public void shouldEnforcePasswordRequirements() {
+        String[] weakPasswords = {
+            "short",
+            "alllowercase",
+            "ALLUPPERCASE",
+            "12345678",
+            "password"
+        };
+
+        for (String weakPassword : weakPasswords) {
+            String loginPayload = String.format("""
+                {
+                    "email": "%s",
+                    "password": "%s"
+                }""", VALID_EMAIL, weakPassword);
+
+            given()
+                .contentType("application/json")
+                .body(loginPayload)
+                .when()
+                .post(BASE_PATH)
+                .then()
+                .statusCode(400); // or 422 for validation error
+        }
+    }
+}
